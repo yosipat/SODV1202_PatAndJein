@@ -6,5 +6,5 @@ Final Project : Connect4
 Team name : PatAndJein
 
 Team members:
-Hyunjung Lim
+Hyunjung Lim,
 Yosita Jasamut
