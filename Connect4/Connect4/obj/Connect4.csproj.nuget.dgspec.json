@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Yosip\\Desktop\\SODV1202\\FinalProject\\Connect4\\Connect4\\Connect4.csproj": {}
+    "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\Connect4.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Yosip\\Desktop\\SODV1202\\FinalProject\\Connect4\\Connect4\\Connect4.csproj": {
+    "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\Connect4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Yosip\\Desktop\\SODV1202\\FinalProject\\Connect4\\Connect4\\Connect4.csproj",
+        "projectUniqueName": "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\Connect4.csproj",
         "projectName": "Connect4",
-        "projectPath": "C:\\Users\\Yosip\\Desktop\\SODV1202\\FinalProject\\Connect4\\Connect4\\Connect4.csproj",
-        "packagesPath": "C:\\Users\\Yosip\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Yosip\\Desktop\\SODV1202\\FinalProject\\Connect4\\Connect4\\obj\\",
+        "projectPath": "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\Connect4.csproj",
+        "packagesPath": "C:\\Users\\limsa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Yosip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\limsa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -38,6 +38,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -59,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
