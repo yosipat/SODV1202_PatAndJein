@@ -28,7 +28,7 @@
               "RelativeDocumentMoniker": "Connect4\\Program.cs",
               "ToolTip": "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\Program.cs",
               "RelativeToolTip": "Connect4\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAA+wAkAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-17T21:54:24.805Z",
               "EditorCaption": ""
@@ -36,15 +36,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Connect4",
+              "Title": "Connect4.csproj",
               "DocumentMoniker": "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\Connect4.csproj",
               "RelativeDocumentMoniker": "Connect4\\Connect4.csproj",
               "ToolTip": "C:\\Users\\limsa\\OneDrive\\Documents\\GitHub\\SODV1202_PatAndJein\\Connect4\\Connect4\\Connect4.csproj",
               "RelativeToolTip": "Connect4\\Connect4.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-06-17T21:54:15.512Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-17T21:54:15.512Z"
             }
           ]
         }
