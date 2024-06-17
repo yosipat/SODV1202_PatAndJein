@@ -7,4 +7,10 @@
         Console.WriteLine("again");
         Console.WriteLine("A");
     }
+
+    static void InitializeGame()
+    {
+        Console.WriteLine("Welcome to Connect Four!");
+        Console.WriteLine("Choose game mode: 1 for Single Player, 2 for Two Players");
+    }
 }
