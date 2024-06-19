@@ -28,6 +28,11 @@ namespace ConnectFour_PatAndJein
                 while (true)
                 {
                     string input = Console.ReadLine();
+                    if (input.ToLower() == "exit")
+                    {
+                        Console.WriteLine("Thanks for playing!");
+                        Environment.Exit(0);
+                    }
                     if (input.Length == 1 && int.TryParse(input, out c) && c >= 0 && c <= 6)
                     {
                         break;
@@ -232,13 +237,23 @@ namespace ConnectFour_PatAndJein
             Console.WriteLine("Connect 4 Game Development Project:");
             // Set up MODE (1 OR 2)
             Console.WriteLine("Choose game mode: 1 (Single Player), 2 (Two Players)");
-            int mode;
-            while (!int.TryParse(Console.ReadLine(), out mode) || (mode != 1 && mode != 2))
-            {
-                Console.WriteLine("Invalid input. Please choose 1 (Single Player) OR 2 (Two Players):");
-            }
 
-            singlePlayerMode = (mode == 1);
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input.ToLower() == "exit")
+                {
+                    Console.WriteLine("Thanks for playing!");
+                    Environment.Exit(0);
+                }
+
+                if (int.TryParse(input, out int mode) && (mode == 1 || mode == 2))
+                {
+                    singlePlayerMode = (mode == 1);
+                    break;
+                }
+                Console.WriteLine("Invalid input. Please choose 1 (Single Player) OR 2 (Two Players) or type 'exit' to quit:");
+            }
 
             // Player Name set-up
             Console.Write("Enter Player 1 name: ");
