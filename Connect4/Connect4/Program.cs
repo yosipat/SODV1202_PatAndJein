@@ -3,23 +3,130 @@ using System.Data.Common;
 
 namespace ConnectFour_PatAndJein
 {
+    class Player
+    {
+        public string Name { get; set; }
+        public char Symbol { get; set; }
+
+        public Player(string name, char symbol)
+        {
+            Name = name;
+            Symbol = symbol;
+        }
+    }
+
+    class Board
+    {
+        private readonly char[,] board = new char[7, 6];
+
+        public Board()
+        {
+            InitializeBoard();
+        }
+
+        public void InitializeBoard()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 6; j++)
+                {
+                    board[i, j] = ' ';
+                }
+            }
+        }
+
+        public bool DropDisc(int column, char symbol)
+        {
+            for (int row = 0; row < 6; row++)
+            {
+                if (board[column, row] == ' ')
+                {
+                    board[column, row] = symbol;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsFull()
+        {
+            foreach (char cell in board)
+            {
+                if (cell == ' ')
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public char[,] GetBoard()
+        {
+            return board;
+        }
+
+        public void PrintBoard(Player player1, Player player2)
+        {
+            Console.Clear();
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine("Connect4 : Final Project");
+            Console.WriteLine();
+            Console.WriteLine("Developed by");
+            Console.WriteLine("Hyunjung Lim, Yosita Jasamut");
+            Console.WriteLine();
+            Console.WriteLine("SODV1202:Introduction to Object Oriented Programming-24MAYMNTR1");
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine();
+
+            Console.WriteLine($"Player 1: {player1.Name} ({player1.Symbol})");
+            Console.WriteLine($"Player 2: {player2.Name} ({player2.Symbol})");
+            Console.WriteLine();
+
+            for (int j = 5; j >= 0; j--)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    Console.Write($"| {board[i, j]} ");
+                }
+                Console.WriteLine("|");
+            }
+            Console.WriteLine("  0   1   2   3   4   5   6  ");
+            Console.WriteLine();
+        }
+    }
+
     class Connect4
     {
-        public string player1Name;
-        public string player2Name;
-        public bool singlePlayerMode;
-        public char[,] board = new char[7, 6];
-        public char currentPlayer = 'X';
-        public string currentPlayerName;
-        Random r = new Random();
+        private readonly Player player1;
+        private readonly Player player2;
+        private Player currentPlayer;
+        private readonly Board board;
+        private readonly bool singlePlayerMode;
+        private readonly Random r = new Random();
 
-        public bool Play()
+        public Connect4(Player p1, Player p2, bool isSinglePlayerMode)
+        {
+            player1 = p1;
+            player2 = p2;
+            currentPlayer = player1;
+            board = new Board();
+            singlePlayerMode = isSinglePlayerMode;
+        }
+
+        public void StartGame()
+        {
+            board.InitializeBoard();
+            board.PrintBoard(player1, player2);
+            while (Play()) { }
+        }
+
+        private bool Play()
         {
             Console.WriteLine();
-            Console.WriteLine($"----- Player {currentPlayerName}'s turn. ({currentPlayer}) ----- Enter a number of column (0-6):");
+            Console.WriteLine($"----- Player {currentPlayer.Name}'s turn. ({currentPlayer.Symbol}) ----- Enter a number of column (0-6):");
 
             int c;
-            if (singlePlayerMode && currentPlayerName == player2Name)
+            if (singlePlayerMode && currentPlayer == player2)
             {
                 c = r.Next(0, 7);
             }
@@ -37,22 +144,22 @@ namespace ConnectFour_PatAndJein
                     {
                         break;
                     }
-                    Console.WriteLine($"{currentPlayerName}, enter a valid number of column (0-6):");
+                    Console.WriteLine($"{currentPlayer.Name}, enter a valid number of column (0-6):");
                 }
             }
 
-            if (DropDisc(c))
+            if (board.DropDisc(c, currentPlayer.Symbol))
             {
-                PrintBoard();
+                board.PrintBoard(player1, player2);
 
                 if (CheckWin())
                 {
                     Console.WriteLine("Congratulations!");
-                    Console.WriteLine($"{currentPlayerName} Wins!");
+                    Console.WriteLine($"{currentPlayer.Name} Wins!");
                     return false;
                 }
 
-                if (IsBoardFull())
+                if (board.IsFull())
                 {
                     Console.WriteLine("Game over! It's a draw!");
                     return false;
@@ -69,63 +176,22 @@ namespace ConnectFour_PatAndJein
             return true;
         }
 
-        public bool DropDisc(int column)
+        private void SwitchPlayer()
         {
-            for (int row = 0; row < 6; row++)
-            {
-                if (board[column, row] == ' ')
-                {
-                    board[column, row] = currentPlayer;
-                    return true;
-                }
-            }
-            return false;
+            currentPlayer = (currentPlayer == player1) ? player2 : player1;
         }
 
-        public void SwitchPlayer()
+        private bool CheckWin()
         {
-            currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
-            currentPlayerName = (currentPlayer == 'X') ? player1Name : player2Name;
-        }
+            char[,] b = board.GetBoard();
 
-        public void PrintBoard()
-        {
-            Console.Clear();
-            Console.WriteLine("---------------------------------------------------------------");
-            Console.WriteLine("Connect4 : Final Project");
-            Console.WriteLine();
-            Console.WriteLine("Developed by");
-            Console.WriteLine("Hyunjung Lim, Yosita Jasamut");
-            Console.WriteLine();
-            Console.WriteLine("SODV1202:Introduction to Object Oriented Programming-24MAYMNTR1");
-            Console.WriteLine("---------------------------------------------------------------");
-            Console.WriteLine();
-
-            Console.WriteLine($"Player 1: {player1Name} (X)");
-            Console.WriteLine($"Player 2: {player2Name} (O)");
-            Console.WriteLine();
-
-            for (int j = 5; j >= 0; j--)
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    Console.Write($"| {board[i, j]} ");
-                }
-                Console.WriteLine("|");
-            }
-            Console.WriteLine("  0   1   2   3   4   5   6  ");
-            Console.WriteLine();
-        }
-
-        public bool CheckWin()
-        {
             // Check horizontal
             for (int j = 0; j < 6; j++)
             {
                 int count = 0;
                 for (int i = 0; i < 7; i++)
                 {
-                    if (board[i, j] == currentPlayer)
+                    if (b[i, j] == currentPlayer.Symbol)
                     {
                         count++;
                     }
@@ -146,7 +212,7 @@ namespace ConnectFour_PatAndJein
                 int count = 0;
                 for (int j = 0; j < 6; j++)
                 {
-                    if (board[i, j] == currentPlayer)
+                    if (b[i, j] == currentPlayer.Symbol)
                     {
                         count++;
                     }
@@ -166,8 +232,8 @@ namespace ConnectFour_PatAndJein
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (board[i, j] == currentPlayer && board[i + 1, j + 1] == currentPlayer &&
-                        board[i + 2, j + 2] == currentPlayer && board[i + 3, j + 3] == currentPlayer)
+                    if (b[i, j] == currentPlayer.Symbol && b[i + 1, j + 1] == currentPlayer.Symbol &&
+                        b[i + 2, j + 2] == currentPlayer.Symbol && b[i + 3, j + 3] == currentPlayer.Symbol)
                     {
                         return true;
                     }
@@ -179,8 +245,8 @@ namespace ConnectFour_PatAndJein
             {
                 for (int j = 3; j < 6; j++)
                 {
-                    if (board[i, j] == currentPlayer && board[i + 1, j - 1] == currentPlayer &&
-                        board[i + 2, j - 2] == currentPlayer && board[i + 3, j - 3] == currentPlayer)
+                    if (b[i, j] == currentPlayer.Symbol && b[i + 1, j - 1] == currentPlayer.Symbol &&
+                        b[i + 2, j - 2] == currentPlayer.Symbol && b[i + 3, j - 3] == currentPlayer.Symbol)
                     {
                         return true;
                     }
@@ -189,116 +255,75 @@ namespace ConnectFour_PatAndJein
 
             return false;
         }
+    }
 
-        public bool IsBoardFull()
+    class Game
+    {
+        public static void Start()
         {
-            foreach (char cell in board)
+            while (true)
             {
-                if (cell == ' ')
+                // Set up game mode and player names
+                Console.WriteLine("Connect 4 Game Development Project:");
+                Console.WriteLine("Choose game mode: 1 (Single Player), 2 (Two Players)");
+
+                bool singlePlayerMode;
+                while (true)
                 {
-                    return false;
+                    string input = Console.ReadLine();
+                    if (input.ToLower() == "exit")
+                    {
+                        Console.WriteLine("Thanks for playing!");
+                        Environment.Exit(0);
+                    }
+
+                    if (int.TryParse(input, out int mode) && (mode == 1 || mode == 2))
+                    {
+                        singlePlayerMode = (mode == 1);
+                        break;
+                    }
+                    Console.WriteLine("Invalid input. Please choose 1 (Single Player) OR 2 (Two Players) or type 'exit' to quit:");
+                }
+
+                // Set up players
+                Console.Write("Enter Player 1 name: ");
+                string player1Name = Console.ReadLine();
+                string player2Name;
+
+                if (singlePlayerMode)
+                {
+                    player2Name = "AI";
+                }
+                else
+                {
+                    Console.Write("Enter Player 2 name: ");
+                    player2Name = Console.ReadLine();
+                }
+
+                Player player1 = new Player(player1Name, 'X');
+                Player player2 = new Player(player2Name, 'O');
+
+                // Create and start the game
+                Connect4 game = new Connect4(player1, player2, singlePlayerMode);
+                game.StartGame();
+
+                // End game
+                Console.Write("Do you want to play again? (yes/no) ");
+                string response = Console.ReadLine();
+                if (response.ToUpper() != "YES")
+                {
+                    Console.WriteLine("Thanks for playing!");
+                    Environment.Exit(0);
                 }
             }
-            return true;
         }
     }
 
     class Program
     {
-        static string player1Name;
-        static string player2Name;
-        static bool singlePlayerMode;
-        static char[,] board = new char[7, 6];
-
         static void Main(string[] args)
         {
-            while (true)
-            {
-                Connect4 game = new Connect4();
-
-                SetupGame();
-                CreateBoard();
-
-                game.singlePlayerMode = singlePlayerMode;
-                game.player1Name = player1Name;
-                game.player2Name = player2Name;
-                game.board = board;
-                game.currentPlayerName = player1Name;
-                game.PrintBoard();
-
-                while (game.Play()) { }
-
-                EndGame();
-            }
-        }
-
-        static void SetupGame()
-        {
-            Console.WriteLine("Connect 4 Game Development Project:");
-            // Set up MODE (1 OR 2)
-            Console.WriteLine("Choose game mode: 1 (Single Player), 2 (Two Players)");
-
-            while (true)
-            {
-                string input = Console.ReadLine();
-                if (input.ToLower() == "exit")
-                {
-                    Console.WriteLine("Thanks for playing!");
-                    Environment.Exit(0);
-                }
-
-                if (int.TryParse(input, out int mode) && (mode == 1 || mode == 2))
-                {
-                    singlePlayerMode = (mode == 1);
-                    break;
-                }
-                Console.WriteLine("Invalid input. Please choose 1 (Single Player) OR 2 (Two Players) or type 'exit' to quit:");
-            }
-
-            // Player Name set-up
-            Console.Write("Enter Player 1 name: ");
-            player1Name = Console.ReadLine();
-
-            if (singlePlayerMode)
-            {
-                player2Name = "AI";
-            }
-            else
-            {
-                player2Name = PromptPlayerName();
-            }
-
-            Console.WriteLine($"Player 1: {player1Name} (X)");
-            Console.WriteLine($"Player 2: {player2Name} (O)");
-        }
-
-        static string PromptPlayerName()
-        {
-            Console.Write("Enter Player 2 name: ");
-            return Console.ReadLine();
-        }
-
-        static void CreateBoard()
-        {
-            // Create the game board (create a 7x6 grid)
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 6; j++)
-                {
-                    board[i, j] = ' ';
-                }
-            }
-        }
-
-        static void EndGame()
-        {
-            Console.Write("Do you want to play again? (yes/no) ");
-            string response = Console.ReadLine();
-            if (response.ToUpper() != "YES")
-            {
-                Console.WriteLine("Thanks for playing!");
-                Environment.Exit(0);
-            }
+            Game.Start();
         }
     }
 }
