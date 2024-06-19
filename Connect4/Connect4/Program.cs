@@ -66,22 +66,7 @@ namespace ConnectFour_PatAndJein
         }
     }
 
-    class ConsoleDisplay()
-    {
-        public static void DisplayHeader()
-        {
-            Console.Clear();
-            Console.WriteLine("---------------------------------------------------------------");
-            Console.WriteLine("Connect4 Game Development : Final Project");
-            Console.WriteLine();
-            Console.WriteLine("Developed by");
-            Console.WriteLine("Hyunjung Lim, Yosita Jasamut");
-            Console.WriteLine();
-            Console.WriteLine("SODV1202:Introduction to Object Oriented Programming-24MAYMNTR1");
-            Console.WriteLine("---------------------------------------------------------------");
-            Console.WriteLine();
-        }
-    }
+ 
 
     class Board
     {
@@ -145,11 +130,23 @@ namespace ConnectFour_PatAndJein
             return board;
         }
 
-      
+      public static void DisplayHeader()
+        {
+            Console.Clear();
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine("Connect4 Game Development : Final Project");
+            Console.WriteLine();
+            Console.WriteLine("Developed by");
+            Console.WriteLine("Hyunjung Lim, Yosita Jasamut");
+            Console.WriteLine();
+            Console.WriteLine("SODV1202:Introduction to Object Oriented Programming-24MAYMNTR1");
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine();
+        }
 
         public void PrintBoard(Player player1, Player player2)
         {
-            ConsoleDisplay.DisplayHeader();
+            DisplayHeader();
 
             Console.WriteLine($"Player 1: {player1.Name} ({player1.Symbol})");
             Console.WriteLine($"Player 2: {player2.Name} ({player2.Symbol})");
@@ -308,7 +305,7 @@ namespace ConnectFour_PatAndJein
             while (true)
             {
                 // Set up game mode and player names
-                ConsoleDisplay.DisplayHeader();
+                Board.DisplayHeader();
                 Console.WriteLine("Choose game mode: 1 (Single Player), 2 (Two Players)");
 
                 bool singlePlayerMode;
@@ -355,13 +352,36 @@ namespace ConnectFour_PatAndJein
                 game.StartGame();
 
                 // End game
-                Console.Write("Do you want to play again? (yes/no) ");
-                string response = Console.ReadLine();
-                if (response.ToUpper() != "YES")
+                Console.Write("Do you want to play again? yes (1) / no(2) :");
+                int response;
+                while(true)
                 {
-                    Console.WriteLine("Thanks for playing!");
-                    Environment.Exit(0);
+                    try
+                    {
+                        response = int.Parse(Console.ReadLine());
+
+                        if (response == 2)
+                        {
+                            Console.WriteLine("Thanks for playing!");
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        
+                    }
+                    catch(FormatException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine("Do you want to play again? yes (1) / no(2) :");
+                    }
                 }
+                    
+
+                
+              
+               
             }
         }
     }
