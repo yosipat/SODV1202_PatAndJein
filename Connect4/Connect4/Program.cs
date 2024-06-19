@@ -66,6 +66,23 @@ namespace ConnectFour_PatAndJein
         }
     }
 
+    class ConsoleDisplay()
+    {
+        public static void DisplayHeader()
+        {
+            Console.Clear();
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine("Connect4 Game Development : Final Project");
+            Console.WriteLine();
+            Console.WriteLine("Developed by");
+            Console.WriteLine("Hyunjung Lim, Yosita Jasamut");
+            Console.WriteLine();
+            Console.WriteLine("SODV1202:Introduction to Object Oriented Programming-24MAYMNTR1");
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine();
+        }
+    }
+
     class Board
     {
         private readonly char[,] board = new char[7, 6];
@@ -128,18 +145,11 @@ namespace ConnectFour_PatAndJein
             return board;
         }
 
+      
+
         public void PrintBoard(Player player1, Player player2)
         {
-            Console.Clear();
-            Console.WriteLine("---------------------------------------------------------------");
-            Console.WriteLine("Connect4 : Final Project");
-            Console.WriteLine();
-            Console.WriteLine("Developed by");
-            Console.WriteLine("Hyunjung Lim, Yosita Jasamut");
-            Console.WriteLine();
-            Console.WriteLine("SODV1202:Introduction to Object Oriented Programming-24MAYMNTR1");
-            Console.WriteLine("---------------------------------------------------------------");
-            Console.WriteLine();
+            ConsoleDisplay.DisplayHeader();
 
             Console.WriteLine($"Player 1: {player1.Name} ({player1.Symbol})");
             Console.WriteLine($"Player 2: {player2.Name} ({player2.Symbol})");
@@ -298,7 +308,7 @@ namespace ConnectFour_PatAndJein
             while (true)
             {
                 // Set up game mode and player names
-                Console.WriteLine("Connect 4 Game Development Project:");
+                ConsoleDisplay.DisplayHeader();
                 Console.WriteLine("Choose game mode: 1 (Single Player), 2 (Two Players)");
 
                 bool singlePlayerMode;
