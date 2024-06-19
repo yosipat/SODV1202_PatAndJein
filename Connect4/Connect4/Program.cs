@@ -12,6 +12,7 @@ namespace ConnectFour_PatAndJein
         public char currentPlayer = 'X';
         public string currentPlayerName;
         Random r = new Random();
+
         public bool Play()
         {
             Console.WriteLine();
@@ -21,41 +22,45 @@ namespace ConnectFour_PatAndJein
             if (singlePlayerMode && currentPlayerName == player2Name)
             {
                 c = r.Next(0, 7);
-
             }
             else
             {
-                while (!int.TryParse(Console.ReadLine(), out c) || c < 0 || c > 6)
+                while (true)
                 {
-                    Console.WriteLine($"{currentPlayerName} enter an invalid input. Enter a number of column (0-6):");
+                    string input = Console.ReadLine();
+                    if (input.Length == 1 && int.TryParse(input, out c) && c >= 0 && c <= 6)
+                    {
+                        break;
+                    }
+                    Console.WriteLine($"{currentPlayerName}, enter a valid number of column (0-6):");
                 }
             }
 
-                if (DropDisc(c)) 
+            if (DropDisc(c))
+            {
+                PrintBoard();
+
+                if (CheckWin())
                 {
-                    PrintBoard();
-
-                    if (CheckWin()) 
-                    {
-                        Console.WriteLine("Congratulations!");
-                        Console.WriteLine($"{currentPlayerName} Win!");
-                        return false;
-                    }
-
-                    if (IsBoardFull())
-                    {
-                        Console.WriteLine("Game over!");
-                        return false;
-                    }
-
-                    SwitchPlayer();
+                    Console.WriteLine("Congratulations!");
+                    Console.WriteLine($"{currentPlayerName} Wins!");
+                    return false;
                 }
-                else
+
+                if (IsBoardFull())
                 {
-                    Console.WriteLine($"!!! Column {c} is full. Please select another column. !!!");
-                    Console.WriteLine();
-                }  
-      
+                    Console.WriteLine("Game over! It's a draw!");
+                    return false;
+                }
+
+                SwitchPlayer();
+            }
+            else
+            {
+                Console.WriteLine($"!!! Column {c} is full. Please select another column. !!!");
+                Console.WriteLine();
+            }
+
             return true;
         }
 
@@ -77,11 +82,10 @@ namespace ConnectFour_PatAndJein
             currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
             currentPlayerName = (currentPlayer == 'X') ? player1Name : player2Name;
         }
-        
+
         public void PrintBoard()
         {
             Console.Clear();
-
             Console.WriteLine("---------------------------------------------------------------");
             Console.WriteLine("Connect4 : Final Project");
             Console.WriteLine();
@@ -94,9 +98,8 @@ namespace ConnectFour_PatAndJein
 
             Console.WriteLine($"Player 1: {player1Name} (X)");
             Console.WriteLine($"Player 2: {player2Name} (O)");
-
-            // Print the game board
             Console.WriteLine();
+
             for (int j = 5; j >= 0; j--)
             {
                 for (int i = 0; i < 7; i++)
@@ -193,7 +196,6 @@ namespace ConnectFour_PatAndJein
             }
             return true;
         }
-
     }
 
     class Program
@@ -205,24 +207,26 @@ namespace ConnectFour_PatAndJein
 
         static void Main(string[] args)
         {
-            Connect4 game = new Connect4();
-
-            SetupGame();
-            CreateBoard();
-
-            game.singlePlayerMode=singlePlayerMode;
-            game.player1Name=player1Name;
-            game.player2Name=player2Name;
-            game.board= board;
-            game.currentPlayerName = player1Name;
-            game.PrintBoard();
-
-            while (game.Play())
+            while (true)
             {
+                Connect4 game = new Connect4();
 
+                SetupGame();
+                CreateBoard();
+
+                game.singlePlayerMode = singlePlayerMode;
+                game.player1Name = player1Name;
+                game.player2Name = player2Name;
+                game.board = board;
+                game.currentPlayerName = player1Name;
+                game.PrintBoard();
+
+                while (game.Play()) { }
+
+                EndGame();
             }
-            
         }
+
         static void SetupGame()
         {
             Console.WriteLine("Connect 4 Game Development Project:");
@@ -270,19 +274,16 @@ namespace ConnectFour_PatAndJein
                 }
             }
         }
+
         static void EndGame()
         {
-            Console.Write("Do you want to play again? (yes/no)");
+            Console.Write("Do you want to play again? (yes/no) ");
             string response = Console.ReadLine();
-            if (response.ToLower() == "yes")
-            {
-                Main(null);
-            }
-            else
+            if (response.ToUpper() != "YES")
             {
                 Console.WriteLine("Thanks for playing!");
+                Environment.Exit(0);
             }
         }
     }
 }
-
