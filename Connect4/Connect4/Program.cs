@@ -3,7 +3,7 @@ using System.Data.Common;
 
 namespace ConnectFour_PatAndJein
 {
-    class Player
+    abstract class Player
     {
         public string Name { get; set; }
         public char Symbol { get; set; }
@@ -12,6 +12,57 @@ namespace ConnectFour_PatAndJein
         {
             Name = name;
             Symbol = symbol;
+        }
+
+        public abstract int GetInput(Board board);
+    }
+
+    class HumanPlayer : Player
+    {
+        public HumanPlayer(string name, char symbol) : base(name, symbol)
+        {
+
+        }
+
+        public override int GetInput(Board board)
+        {
+            int c;
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input.ToLower() == "exit")
+                {
+                    Console.WriteLine("Thanks for playing!");
+                    Environment.Exit(0);
+                }
+                if (input.Length == 1 && int.TryParse(input, out c) && c >= 0 && c <= 6 && board.IsFullColumn(c))
+                {
+                    return c;
+                }
+                Console.WriteLine($"{Name}, enter a valid number of column (0-6):");
+            }
+        }
+    }
+
+    class AIPlayer : Player
+    {
+        public AIPlayer(string name, char symbol): base(name, symbol)
+        {
+
+        }
+
+        public override int GetInput(Board board)
+        {
+            int c;
+            Random r = new Random();
+            
+            do
+            {
+                c = r.Next(0,7);
+            }
+            while (!board.IsFullColumn(c)) ;
+            
+            return c;
         }
     }
 
@@ -35,6 +86,18 @@ namespace ConnectFour_PatAndJein
             }
         }
 
+        public bool IsFullColumn(int column)
+        {
+            for (int row = 0; row < 6; row++)
+            {
+                if (board[column, row] == ' ')
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool DropDisc(int column, char symbol)
         {
             for (int row = 0; row < 6; row++)
@@ -48,7 +111,7 @@ namespace ConnectFour_PatAndJein
             return false;
         }
 
-        public bool IsFull()
+        public bool IsFullBoard()
         {
             foreach (char cell in board)
             {
@@ -102,7 +165,6 @@ namespace ConnectFour_PatAndJein
         private Player currentPlayer;
         private readonly Board board;
         private readonly bool singlePlayerMode;
-        private readonly Random r = new Random();
 
         public Connect4(Player p1, Player p2, bool isSinglePlayerMode)
         {
@@ -125,31 +187,10 @@ namespace ConnectFour_PatAndJein
             Console.WriteLine();
             Console.WriteLine($"----- Player {currentPlayer.Name}'s turn. ({currentPlayer.Symbol}) ----- Enter a number of column (0-6):");
 
-            int c;
-            if (singlePlayerMode && currentPlayer == player2)
-            {
-                c = r.Next(0, 7);
-            }
-            else
-            {
-                while (true)
-                {
-                    string input = Console.ReadLine();
-                    if (input.ToLower() == "exit")
-                    {
-                        Console.WriteLine("Thanks for playing!");
-                        Environment.Exit(0);
-                    }
-                    if (input.Length == 1 && int.TryParse(input, out c) && c >= 0 && c <= 6)
-                    {
-                        break;
-                    }
-                    Console.WriteLine($"{currentPlayer.Name}, enter a valid number of column (0-6):");
-                }
-            }
+            int c = currentPlayer.GetInput(board);
 
-            if (board.DropDisc(c, currentPlayer.Symbol))
-            {
+            board.DropDisc(c, currentPlayer.Symbol);
+           
                 board.PrintBoard(player1, player2);
 
                 if (CheckWin())
@@ -159,20 +200,13 @@ namespace ConnectFour_PatAndJein
                     return false;
                 }
 
-                if (board.IsFull())
+                if (board.IsFullBoard())
                 {
                     Console.WriteLine("Game over! It's a draw!");
                     return false;
                 }
 
                 SwitchPlayer();
-            }
-            else
-            {
-                Console.WriteLine($"!!! Column {c} is full. Please select another column. !!!");
-                Console.WriteLine();
-            }
-
             return true;
         }
 
@@ -286,22 +320,25 @@ namespace ConnectFour_PatAndJein
                 }
 
                 // Set up players
+                Player player1;
+                Player player2;
+
                 Console.Write("Enter Player 1 name: ");
                 string player1Name = Console.ReadLine();
                 string player2Name;
 
+                player1 = new HumanPlayer(player1Name,'X');
+
                 if (singlePlayerMode)
                 {
-                    player2Name = "AI";
+                    player2 = new AIPlayer("AI", 'O');
                 }
                 else
                 {
                     Console.Write("Enter Player 2 name: ");
                     player2Name = Console.ReadLine();
+                    player2 = new HumanPlayer(player2Name, 'O');
                 }
-
-                Player player1 = new Player(player1Name, 'X');
-                Player player2 = new Player(player2Name, 'O');
 
                 // Create and start the game
                 Connect4 game = new Connect4(player1, player2, singlePlayerMode);
