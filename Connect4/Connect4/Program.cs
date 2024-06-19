@@ -31,16 +31,14 @@ namespace ConnectFour_PatAndJein
                 }
             }
 
-            
-
-         
-                if (DropDisc(c)) {
-
+                if (DropDisc(c)) 
+                {
                     PrintBoard();
 
-                    if (CheckWin()) {
-                    Console.WriteLine("Congratulations!");
-                    Console.WriteLine($"{currentPlayerName} Win!");
+                    if (CheckWin()) 
+                    {
+                        Console.WriteLine("Congratulations!");
+                        Console.WriteLine($"{currentPlayerName} Win!");
                         return false;
                     }
 
@@ -56,10 +54,8 @@ namespace ConnectFour_PatAndJein
                 {
                     Console.WriteLine($"!!! Column {c} is full. Please select another column. !!!");
                     Console.WriteLine();
-                }
-            
+                }  
       
-            
             return true;
         }
 
@@ -100,8 +96,7 @@ namespace ConnectFour_PatAndJein
             Console.WriteLine($"Player 2: {player2Name} (O)");
 
             // Print the game board
-
-            Console.WriteLine("");
+            Console.WriteLine();
             for (int j = 5; j >= 0; j--)
             {
                 for (int i = 0; i < 7; i++)
@@ -111,7 +106,7 @@ namespace ConnectFour_PatAndJein
                 Console.WriteLine("|");
             }
             Console.WriteLine("  0   1   2   3   4   5   6  ");
-            Console.WriteLine("");
+            Console.WriteLine();
         }
 
         public bool CheckWin()
@@ -273,6 +268,19 @@ namespace ConnectFour_PatAndJein
                 {
                     board[i, j] = ' ';
                 }
+            }
+        }
+        static void EndGame()
+        {
+            Console.Write("Do you want to play again? (yes/no)");
+            string response = Console.ReadLine();
+            if (response.ToLower() == "yes")
+            {
+                Main(null);
+            }
+            else
+            {
+                Console.WriteLine("Thanks for playing!");
             }
         }
     }
