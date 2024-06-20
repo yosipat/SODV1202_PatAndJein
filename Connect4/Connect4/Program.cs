@@ -16,7 +16,8 @@ namespace ConnectFour_PatAndJein
 
         public abstract int GetInput(Board board);
     }
-
+    
+    //Human Player
     class HumanPlayer : Player
     {
         public HumanPlayer(string name, char symbol) : base(name, symbol)
@@ -44,6 +45,8 @@ namespace ConnectFour_PatAndJein
         }
     }
 
+
+    //AI Player
     class AIPlayer : Player
     {
         public AIPlayer(string name, char symbol): base(name, symbol)
@@ -67,7 +70,7 @@ namespace ConnectFour_PatAndJein
     }
 
  
-
+    //'7x6' grid game board
     class Board
     {
         private readonly char[,] board = new char[7, 6];
@@ -76,7 +79,7 @@ namespace ConnectFour_PatAndJein
         {
             InitializeBoard();
         }
-
+    //Initialize Board
         public void InitializeBoard()
         {
             for (int i = 0; i < 7; i++)
@@ -88,6 +91,7 @@ namespace ConnectFour_PatAndJein
             }
         }
 
+        
         public bool IsFullColumn(int column)
         {
             for (int row = 0; row < 6; row++)
@@ -130,6 +134,7 @@ namespace ConnectFour_PatAndJein
             return board;
         }
 
+        //Display the game header
       public static void DisplayHeader()
         {
             Console.Clear();
@@ -181,7 +186,7 @@ namespace ConnectFour_PatAndJein
             board = new Board();
             singlePlayerMode = isSinglePlayerMode;
         }
-
+    //Start Game
         public void StartGame()
         {
             board.InitializeBoard();
@@ -377,11 +382,6 @@ namespace ConnectFour_PatAndJein
                         Console.WriteLine("Do you want to play again? yes (1) / no(2) :");
                     }
                 }
-                    
-
-                
-              
-               
             }
         }
     }
