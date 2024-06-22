@@ -63,7 +63,7 @@ namespace ConnectFour_PatAndJein
             {
                 c = r.Next(0,7);
             }
-            while (!board.IsFullColumn(c)) ;
+            while (!board.IsFullColumn(c)); 
             
             return c;
         }
@@ -80,7 +80,7 @@ namespace ConnectFour_PatAndJein
             InitializeBoard();
         }
     //Initialize Board
-        public void InitializeBoard()
+        public void InitializeBoard() // define all cell empty
         {
             for (int i = 0; i < 7; i++)
             {
@@ -92,7 +92,7 @@ namespace ConnectFour_PatAndJein
         }
 
         
-        public bool IsFullColumn(int column)
+        public bool IsFullColumn(int column) // check if the column has a empty cell
         {
             for (int row = 0; row < 6; row++)
             {
@@ -104,13 +104,13 @@ namespace ConnectFour_PatAndJein
             return false;
         }
 
-        public bool DropDisc(int column, char symbol)
+        public bool DropDisc(int column, char symbol) 
         {
             for (int row = 0; row < 6; row++)
             {
-                if (board[column, row] == ' ')
+                if (board[column, row] == ' ') 
                 {
-                    board[column, row] = symbol;
+                    board[column, row] = symbol; // set value on the cell that empty
                     return true;
                 }
             }
@@ -121,7 +121,7 @@ namespace ConnectFour_PatAndJein
         {
             foreach (char cell in board)
             {
-                if (cell == ' ')
+                if (cell == ' ') // check if there is empty cell.
                 {
                     return false;
                 }
@@ -199,32 +199,33 @@ namespace ConnectFour_PatAndJein
             Console.WriteLine();
             Console.WriteLine($"----- Player {currentPlayer.Name}'s turn. ({currentPlayer.Symbol}) ----- Enter a number of column (0-6):");
 
-            int c = currentPlayer.GetInput(board);
+            int c = currentPlayer.GetInput(board); // get column number from player's input
 
-            board.DropDisc(c, currentPlayer.Symbol);
-           
-                board.PrintBoard(player1, player2);
+            board.DropDisc(c, currentPlayer.Symbol); // drop value that player select
+            
+            board.PrintBoard(player1, player2); // display board
 
-                if (CheckWin())
+                if (CheckWin()) // check win condition
                 {
                     Console.WriteLine("Congratulations!");
                     Console.WriteLine($"{currentPlayer.Name} Wins!");
-                    return false;
+                    return false; // end game
                 }
 
-                if (board.IsFullBoard())
+                if (board.IsFullBoard()) // check if the board is full
                 {
                     Console.WriteLine("Game over! It's a draw!");
-                    return false;
+                    return false; // end game
                 }
 
                 SwitchPlayer();
-            return true;
+
+            return true; // continue game
         }
 
         private void SwitchPlayer()
         {
-            currentPlayer = (currentPlayer == player1) ? player2 : player1;
+            currentPlayer = (currentPlayer == player1) ? player2 : player1; // switch player
         }
 
         private bool CheckWin()
@@ -339,22 +340,22 @@ namespace ConnectFour_PatAndJein
                 string player1Name = Console.ReadLine();
                 string player2Name;
 
-                player1 = new HumanPlayer(player1Name,'X');
+                player1 = new HumanPlayer(player1Name,'X'); // create humanplayer object for player1
 
-                if (singlePlayerMode)
+                if (singlePlayerMode) // if it is 1player mode
                 {
-                    player2 = new AIPlayer("AI", 'O');
+                    player2 = new AIPlayer("AI", 'O'); // create aiplayer object for player2
                 }
                 else
                 {
                     Console.Write("Enter Player 2 name: ");
                     player2Name = Console.ReadLine();
-                    player2 = new HumanPlayer(player2Name, 'O');
+                    player2 = new HumanPlayer(player2Name, 'O'); // create human player object for player2
                 }
 
                 // Create and start the game
                 Connect4 game = new Connect4(player1, player2, singlePlayerMode);
-                game.StartGame();
+                game.StartGame(); // start game loop
 
                 // End game
                 Console.Write("Do you want to play again? yes (1) / no(2) :");
