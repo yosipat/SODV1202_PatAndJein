@@ -61,7 +61,7 @@ namespace ConnectFour_PatAndJein
             
             do
             {
-                c = r.Next(0,7);
+                c = r.Next(0,7); // Generates a number between 0 and 6
             }
             while (!board.IsFullColumn(c)); 
             
@@ -189,7 +189,7 @@ namespace ConnectFour_PatAndJein
     //Start Game
         public void StartGame()
         {
-            board.InitializeBoard();
+            board.InitializeBoard(); // set all cells empty
             board.PrintBoard(player1, player2);
             while (Play()) { }
         }
